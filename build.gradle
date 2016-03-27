@@ -1,27 +1,37 @@
-group 'net.nocono'
-version '1.0-SNAPSHOT'
-
 buildscript {
+    ext.kotlin_version = '1.0.1'
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 apply plugin: 'kotlin'
 
+defaultTasks 'run'
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile (
-        "org.jetbrains.kotlin:kotlin-stdlib:1.0.1",
+        "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
         "com.amazonaws:aws-lambda-java-core:1.1.0",
-        "com.amazonaws:aws-lambda-java-events:1.1.0"
-    )
+        "com.amazonaws:aws-lambda-java-events:1.1.0",
+        "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.1-2")
+    testCompile 'junit:junit:4.11'
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.7"
 }
 
 task buildZip(type: Zip) {
-    from compileJava
+    from compileKotlin
     from processResources
     into('lib') {
         from configurations.runtime
