@@ -15,7 +15,6 @@ class Main {
     val result: String? = when(params.decodedText) {
       "こんにちは" -> "こんにちは, ${params.user_name}!!"
       "Kotlin"     -> "かわいい"
-      "ゆうすけ"   -> "いけめん"
       else         -> null
     }
 
